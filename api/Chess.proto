@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option go_package = ".;chessapi";
+
+service Chess {
+    rpc JoinGame (JoinGameRequest) returns (JoinGameResponse);
+    rpc SendMove (SendMoveRequest) returns (SendMoveResponse);
+    rpc GetMoves (GetMoveRequest) returns (GetMoveResponse);
+}
+
+message JoinGameRequest {
+    string user_id = 1;
+}
+
+message JoinGameResponse {
+    Color color = 1;
+    string game_id = 2;
+}
+
+message SendMoveRequest {
+    string user_id = 1;
+    string game_id = 2;
+    string move = 3;
+}
+
+message SendMoveResponse {
+}
+
+message GetMoveRequest {
+    string game_id = 1;
+}
+
+message GetMoveResponse {
+    repeated string moves = 1;
+}
+
+enum Color {
+    White = 0;
+    Black = 1;
+}

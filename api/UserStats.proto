@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package = ".;userstatsapi";
+
+
+service UserStats {
+    rpc GetStats (GetStatsRequest) returns (GetStatsResponse);
+}
+
+message GetStatsRequest {
+    string user_id = 1;
+}
+
+message GetStatsResponse {
+    repeated GameInfo wins = 1;
+    repeated GameInfo loses = 2;
+    repeated GameInfo draws = 3;
+}
+
+message GameInfo {
+    string game_id = 1;
+}

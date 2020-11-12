@@ -1,0 +1,56 @@
+version: "3"
+services:
+  rabbitmq:
+    image: rabbitmq:3.7.17-management
+
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  game_server_createdb:
+    image: jbergknoff/postgresql-client:latest
+    entrypoint: "/app/scripts/createdb.sh game_server_db"
+    environment:
+      PGPASSWORD: postgres
+    depends_on:
+      - postgres
+
+  game_server_migratedb:
+    image: chess/migrate
+    environment:
+      MIGRATION_ID: 'game_server_db'
+      DB_URL: 'postgres://postgres:postgres@postgres:5432/game_server_db?sslmode=disable'
+    depends_on:
+      - postgres
+
+  user_stats_createdb:
+    image: jbergknoff/postgresql-client:latest
+    entrypoint: "/app/scripts/createdb.sh user_stats_db"
+    environment:
+      PGPASSWORD: postgres
+    depends_on:
+      - postgres
+
+  user_stats_migratedb:
+    image: chess/migrate
+    environment:
+      MIGRATION_ID: 'user_stats_db'
+      DB_URL: 'postgres://postgres:postgres@postgres:5432/user_stats_db?sslmode=disable'
+    depends_on:
+      - postgres
+
+  game_server:
+    image: chess/game
+    environment:
+      DB_URL: 'postgres://postgres@postgres:5432/game_server_db?sslmode=disable'
+    restart: on-failure
+    command: /app/game-server
+
+  user_stats:
+    image: chess/game
+    environment:
+      DB_URL: 'postgres://postgres@postgres:5432/user_stats_db?sslmode=disable'
+    restart: on-failure
+    command: /app/user-stats

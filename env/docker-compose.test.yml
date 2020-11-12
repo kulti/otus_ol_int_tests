@@ -1,0 +1,6 @@
+version: "3"
+services:
+  integration_tests:
+    image: chess/integration-tests
+    env_file:
+      - "config/integration_tests.env"
