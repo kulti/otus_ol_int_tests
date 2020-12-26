@@ -5,7 +5,7 @@ Run services in development env
 ./env.sh dev up
 ```
 
-Run specific service
+Show logs of specific service
 ```bash
-./env.sh dev up blueprint_hub
+./env.sh dev logs game_server
 ```

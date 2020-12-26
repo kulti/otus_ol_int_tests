@@ -62,13 +62,6 @@ func (s *ChessSuite) SetupTest() {
 	}
 }
 
-func (s *ChessSuite) TearDownTest() {
-}
-
-func (s *ChessSuite) TearDownSuite() {
-
-}
-
 func (s *ChessSuite) TestJoinGame() {
 	gameID := s.createGame(s.userWhite)
 	s.joinGame(s.userBlack, gameID)
